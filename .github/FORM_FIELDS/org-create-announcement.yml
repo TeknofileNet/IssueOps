@@ -1,0 +1,5 @@
+required_fields:
+#  - instance
+  - organization
+  - announcement
+  - expires_at
