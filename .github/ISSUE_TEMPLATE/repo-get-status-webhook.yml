@@ -1,0 +1,34 @@
+name: "[Repo] - get the status of a webhook"
+description: allows users to get the status of a webhook
+title: "[repo-status-webhook] Get the Status of a webhook"
+labels:
+  - repo-get-status-webhook
+body:
+# - type: dropdown
+#   id: instance
+#   attributes:
+#     label: GitHub Instance (*)
+#     description: The instance of Github you're targeting. 
+#     options:
+#       - COM
+#       - EMU
+#       - SOMA
+  - type: input
+    id: organization
+    attributes:
+      label: GitHub Organization (*)
+      description: The name of the github organization (must be exact)
+      placeholder: ex. github
+  - type: input
+    id: repository
+    attributes:
+      label: GitHub Repository (*)
+      description: The name of the github repository (must be exact)
+      placeholder: ex. actions
+  - type: input
+    id: webhook_url
+    attributes:
+      label: Webhook URL (*)
+      description: The webhook url
+      placeholder: https://example.com/post
+

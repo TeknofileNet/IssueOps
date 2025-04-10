@@ -1,0 +1,58 @@
+name: create an repository webhook
+
+inputs:
+  instance:
+    description: "GitHub Instance"
+    required: true
+  organization:
+    description: "GitHub Organization"
+    required: true
+  repository:
+    description: "GitHub Repository"
+    required: true
+  webhook_url:
+    description: "Webhook URL"
+    required: true
+  content_type:
+    description: "Content Type"
+    required: true
+  active:
+    description: "Activate Webhook"
+    required: true
+  events:
+    description: "Webhook Events"
+    required: true
+  hostname:
+    description: "GitHub Host"
+    required: true
+  secret:
+    description: "secret"
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: create an repository webhook
+      shell: bash
+      run: |
+        active="$([[ "${{ inputs.active }}" == "["Enable"]" ]] && echo true || echo false)"
+        data=$(gh api repos/${{ inputs.organization }}/${{ inputs.repository }}/hooks \
+        --input - << EOF
+        {
+          "name": "web",
+          "active": $active,
+          "events": ${{ inputs.events }},
+          "config": {
+            "url": "${{ inputs.webhook_url }}",
+            "content_type": "${{ inputs.content_type }}"
+          }
+        }
+        EOF
+        )
+        if [[ $? -eq 0 ]]; then
+          json_data=$(jq -nc '{ "msg": "created repository webhook successfully", "status": "success" }')
+          echo -e "RESULT=$json_data" >> $GITHUB_ENV
+        else
+          json_data=$(jq -nc --argjson error "$data" '{ "msg": "unable to create repository webhook", "status": "error": $data }')
+          echo -e "RESULT=$json_data" >> $GITHUB_ENV
+        fi

@@ -1,0 +1,56 @@
+name: org-create-variable
+
+inputs:
+  organization:
+    description: "GitHub Organization"
+    required: true
+  name:
+    description: "Variable name"
+    required: true
+  value:
+    description: "Variable value"
+    required: true
+  visibility:
+    description: "Type of repositories in the organization that can access the variable"
+    required: true
+  repo_names:
+    description: "repository ids that can access the organization variable"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: create a new organization variable
+      shell: bash
+      run: |
+        if [[ -n "${{ inputs.repo_names }}" ]]; then
+          IFS=',' read -ra repos <<< "${{ inputs.repo_names }}"
+          repo_ids=()
+          for repo in "${repos[@]}"; do
+            repo_id=$(gh api /repos/${{ inputs.organization }}/$repo --jq '.id')
+            repo_ids+=("$repo_id")
+          done
+        fi
+
+        payload='{
+          "name": "${{ inputs.name }}",
+          "value": "${{ inputs.value }}",
+          "visibility": "${{ inputs.visibility }}"
+        }'
+
+        if [[ -n "${repo_ids[*]}" ]]; then
+            ids=$(printf '%s\n' "${repo_ids[@]}" | jq -sc .)
+            payload=$(echo "$payload" | jq --argjson  selected_repository_ids "$ids" '. + {"selected_repository_ids": $selected_repository_ids}')
+        fi
+
+        data=$(gh api "/orgs/${{ inputs.organization }}/actions/variables" \
+          --method POST \
+          --input - <<< "$payload")
+
+        if [[ $? -eq 0 ]]; then
+          json_data=$(jq -nc '{ "msg": "created organization variable successfully", "status": "success" }')
+          echo -e "RESULT=$json_data" >> $GITHUB_ENV
+        else
+          json_data=$(jq -nc --argjson error "$data" '{ "msg": "unable to create organization variable", "status": "error": $data }')
+          echo -e "RESULT=$json_data" >> $GITHUB_ENV
+        fi

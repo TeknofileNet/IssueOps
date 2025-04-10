@@ -1,0 +1,17 @@
+github_instances:
+  - instance: EMU
+    url: github.com
+    organizations:
+      - name: sfdc-demo
+        owners:
+          - cvega
+          - owner2
+      - name: casa-vega
+        owners:
+          - cvega
+      - name: testorg
+        owners:
+          - janedoe
+          - johndoe
+        maintainers:
+          - cvega

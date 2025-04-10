@@ -1,0 +1,6 @@
+required_fields:
+  - organization
+  - name
+  - value
+  - visibility
+
