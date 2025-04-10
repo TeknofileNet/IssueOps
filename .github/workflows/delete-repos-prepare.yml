@@ -27,8 +27,8 @@ jobs:
       - uses: actions/create-github-app-token@v2
         id: app-token
         with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.PRIVATE_KEY }}
+          app-id: ${{ vars.TKFNET_ISSUEOPS_APP_ID }}
+          private-key: ${{ secrets.TKFNET_ISSUEOPS_APP_KEY }}
           owner: ${{ github.repository_owner }}
 
       - uses: stefanbuck/github-issue-parser@2ea9b35a8c584529ed00891a8f7e41dc46d0441e # v3.2.1
