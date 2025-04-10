@@ -82,7 +82,7 @@ jobs:
 
             ## 1. Approval
 
-            Someone from the @${process.env.GITHUB_REPOSITORY_OWNER}/approver-team team has to run the following command in order to proceed:
+            Someone from the @${process.env.GITHUB_REPOSITORY_OWNER}/TKF-GH-Approvers team has to run the following command in order to proceed:
 
             \`\`\`
             /approve
