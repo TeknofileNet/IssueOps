@@ -1,0 +1,106 @@
+name: create-repo-prepare
+
+run-name: 'Create Repo: Issue #${{ github.event.issue.number }} by @${{ github.actor }}'
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create-repo-prepare:
+    name: Prepare Migration
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' &&
+      (github.event.action == 'opened') &&
+      contains(github.event.issue.labels.*.name, 'create-repo')
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write GitHub context to log
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Parse Issue
+        id: parser
+        uses: issue-ops/parser@17134bd7d0633c8267868e79fca7023745aee2f9 # v4.1.0
+        with:
+          body: ${{ github.event.issue.body }}
+
+      - name: Output Issue JSON
+        id: output-issue
+        run: echo "${{ steps.parser.outputs.json }}"
+
+      - name: Set env vars
+        run: |
+          # Convert the repo name to a slug (lowercase, replace spaces with dashes, remove special chars)
+          REPO_NAME=$(echo "${{ fromJson(steps.parser.outputs.json).repo_name }}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed 's/[^a-z0-9-]//g')
+          # set values to env vars to prevent potential script injection
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+          echo "REPO_DESCRIPTION=${{ fromJson(steps.parser.outputs.json).repo_description }}" >> $GITHUB_ENV
+          echo "REPO_VISIBILITY=${{ fromJson(steps.parser.outputs.json).repo_visibility }}" >> $GITHUB_ENV
+
+      - name: Rename issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              title: `Create Repo: ${process.env.REPO_NAME}`
+            })
+
+      - name: Post prepare message
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            let commentBody
+            commentBody = `👋 Thank you for opening this issue to create a new repository, @${{ github.actor }}.
+
+            The following has been parsed from your issue body:
+            - The **repo name** is set to be: **\`${{ env.REPO_NAME }}\`**
+            - The **repo description** is set to be: **\`${{ env.REPO_DESCRIPTION }}\`**
+            - The **repo visibility** is set to be: **\`${{ env.REPO_VISIBILITY }}\`**
+
+            ## Create the repo
+
+            Add the following comment to this issue in order to create the repo:
+
+            \`\`\`
+            /create-repo
+            \`\`\`
+            `
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: commentBody.replace(/  +/g, '')
+            })
+
+      - name: Post failure message
+        if: ${{ failure() }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let commentBody
+            commentBody = `😢 The issue body could not be parsed, @${{ github.actor }}. Please open a new issue using the issue template and ensure your formatting and line spacing remains untouched.\n\nReview the [action logs](${{ github.SERVER_URL }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for more information.`
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: commentBody.replace(/  +/g, '')
+            })

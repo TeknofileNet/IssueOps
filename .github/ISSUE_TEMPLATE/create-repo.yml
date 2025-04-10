@@ -1,0 +1,50 @@
+name: 🆕 Create Repo
+description: Create a new repo with IssueOps
+title: "Create Repo"
+labels: ["create-repo"]
+body:
+  - type: input
+    attributes:
+      label: Repo Name
+      description: Enter in the name of the new repository
+      placeholder: repo-name
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Repo Description
+      description: Enter in the description of the new repository
+      placeholder: repo-description
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Repo Visibility
+      description: Please select the visibility for the new repository
+      options:
+        - internal
+        - private
+        - public
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Workflows
+      description: Add in template workflows to the repository? (concept, not implemented)
+      options:
+        - label: "Dependency Review"
+          required: false
+        - label: "CodeQL"
+          required: false
+  - type: dropdown
+    attributes:
+      label: Language
+      description: Please select the language for the new repository (affects what workflows are configured) (concept, not implemented)
+      options:
+        - java
+        - c#
+        - javascript
+        - terraform
+        - python
+    validations:
+      required: false
