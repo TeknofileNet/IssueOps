@@ -19,3 +19,5 @@ A workflow will be kicked off requiring someone on the @TKF-GH-Approvers team to
 ## More Information
 - https://github.com/readme/guides/github-issueops-philips
 - https://github.blog/engineering/issueops-automate-ci-cd-and-more-with-github-issues-and-actions/
+- https://github.com/issue-ops/docs
+- https://issue-ops.github.io/docs/
