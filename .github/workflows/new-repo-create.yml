@@ -8,7 +8,7 @@ on:
 
 jobs:
   create-repo-run:
-    runs-on: ubuntu-latest
+    runs-on: arc-runner-set
     if: github.event_name == 'issue_comment' &&
       (startsWith(github.event.comment.body, '/create-repo') &&
       contains(github.event.issue.labels.*.name, 'create-repo'))
