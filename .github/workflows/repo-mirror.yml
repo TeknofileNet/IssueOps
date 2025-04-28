@@ -63,18 +63,18 @@ jobs:
       - name: Parse URL
         id: prase-src-url
         run: |
-          echo "Full URL: $GIT_URL"
+          echo "Full URL:  ${process.env.SOURCE_REPO_URL}"
           # Extract protocol
-          PROTOCOL=$(echo "$GIT_URL" | sed -n 's#^\(https\)://.*#\1#p')
+          PROTOCOL=$(echo " ${process.env.SOURCE_REPO_URL}" | sed -n 's#^\(https\)://.*#\1#p')
 
           # Extract host
-          HOST=$(echo "$GIT_URL" | sed -n 's#^https://\([^/]*\)/.*#\1#p')
+          HOST=$(echo " ${process.env.SOURCE_REPO_URL}" | sed -n 's#^https://\([^/]*\)/.*#\1#p')
 
           # Extract org/owner
-          OWNER=$(echo "$GIT_URL" | sed -n 's#^https://[^/]*/\([^/]*\)/.*#\1#p')
+          OWNER=$(echo " ${process.env.SOURCE_REPO_URL}" | sed -n 's#^https://[^/]*/\([^/]*\)/.*#\1#p')
 
           # Extract repo
-          REPO=$(echo "$GIT_URL" | sed -n 's#^https://[^/]*/[^/]*/\([^/.]*\).*#\1#p')
+          REPO=$(echo " ${process.env.SOURCE_REPO_URL}" | sed -n 's#^https://[^/]*/[^/]*/\([^/.]*\).*#\1#p')
 
           echo "SRC_URL_PROTOCOL=$PROTOCOL" >> $GITHUB_ENV
           echo "SRC_URL_HOST=$HOST" >> $GITHUB_ENV
