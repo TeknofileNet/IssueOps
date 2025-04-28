@@ -63,7 +63,7 @@ jobs:
       - name: Parse URL
         id: prase-src-url
         run: |
-          GIT_URL=$(${{ fromJson(steps.parser.outputs.json).source_repo_url }}")
+          GIT_URL=${{ fromJson(steps.parser.outputs.json).source_repo_url }}
           echo "Full URL: $GIT_URL"
           # Extract protocol
           PROTOCOL=$(echo "$GIT_URL" | sed -n 's#^\(https\)://.*#\1#p')
