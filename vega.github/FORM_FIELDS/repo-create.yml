@@ -1,6 +1,0 @@
-required_fields:
-#  - instance
-  - organization
-  - repository
-  - description
-  - visibility

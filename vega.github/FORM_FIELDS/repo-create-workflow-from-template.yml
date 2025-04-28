@@ -1,4 +1,0 @@
-required_fields:
-  - organization
-  - repository
-  - template

@@ -1,5 +1,0 @@
-required_fields:
-#  - instance
-  - organization
-  - repository
-  - name
