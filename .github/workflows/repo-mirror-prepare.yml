@@ -56,7 +56,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              title: `Mirror repository: ${process.env.REPO_NAME}`
+              title: `Mirror repository: ${process.env.SOURCE_REPO_URL}`
             })
 
       - name: Post prepare message
@@ -67,7 +67,7 @@ jobs:
             let commentBody
             commentBody = `👋 Thank you for opening this issue to mirror a new repository, @${{ github.actor }}.
 
-            The following has been parsed from your issue body:
+            Our AI does a pretty good job of capturing the request that you put in, but it isn't full proof. Given that, Can you please validate:
             - The **source repo provider** is set to be: **\`${{ env.SOURCE_REPO_PROVIDER }}\`**
             - The **source repo URL** is set to be: **\`${{ env.SOURCE_REPO_URL }}\`**
             - The **target orgnization** is set to be: **\`${{ env.TARGET_ORGANIZATION }}\`**
