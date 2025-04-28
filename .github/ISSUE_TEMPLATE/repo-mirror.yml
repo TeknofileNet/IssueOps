@@ -1,0 +1,41 @@
+name: 🆕 Mirror a public repository
+description: Create a 'local' mirror within our mirror organization from an upstream.
+title: "Mirror public git repository"
+labels: ["repo-mirror-public"]
+body:
+  - type: dropdown
+    attributes:
+      label: Source Repo Provider
+      description: What system does this repository live in?
+      options:
+        - github.com
+        - gitlab.com
+        - bitbucket.org
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Source repository URL (HTTPS)
+      description: Enter the URL of the source repository
+      placeholder: src-repo-url
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Target (Destination) Organization
+      description: What organization are we going to mirror this into?
+      multiple: false
+      options:
+        - ping-sandbox
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Repo Visibility
+      description: Please select the visibility for the new repository
+      options:
+        - internal
+        - private
+        - public
+    validations:
+      required: true

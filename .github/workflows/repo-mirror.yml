@@ -1,0 +1,83 @@
+name: repo-mirror
+run-name: Mirror repository: Issue #${{ github.event.issue.number }} by @${{ github.actor }}
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  repo-mirror-run:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issue_comment' &&
+      (startsWith(github.event.comment.body, '/mirror-repo') &&
+      contains(github.event.issue.labels.*.name, 'mirror-repo'))
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write GH context to log
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.OPSPLATFORM_ISSUEOPS_APP_ID }}
+          private-key: ${{ secrets.OPSPLATFORM_ISSUEOPS_APP_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      # https://github.com/marketplace/actions/issueops-form-parser
+      - name: Parse Issue
+        id: parser
+        uses: issue-ops/parser@v4.1.0
+        with:
+          body: ${{ github.event.issue.body }}
+
+      - name: Output Issue JSON
+        id: output-issue
+        run: echo "${{ steps.parser.outputs.json }}"
+
+      - name: Set env vars
+        run: |
+          # Convert the repo name to a slug (lowercase, replace spaces with dashes, remove special chars)
+          REPO_NAME=$(echo "${{ fromJson(steps.parser.outputs.json).repo_name }}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed 's/[^a-z0-9-]//g')
+          # set values to env vars to prevent potential script injection
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+          echo "REPO_DESCRIPTION=${{ fromJson(steps.parser.outputs.json).repo_description }}" >> $GITHUB_ENV
+          echo "REPO_VISIBILITY=${{ fromJson(steps.parser.outputs.json).repo_visibility }}" >> $GITHUB_ENV
+
+
+      # doing this again in case someone else renamed the issue
+      - name: Rename issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              title: `Create Repo: ${process.env.REPO_NAME}`
+            })
+
+      - name: Create repository
+        id: create-repo
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            return await github.rest.repos.createInOrg({
+              org: context.repo.owner,
+              name: process.env.REPO_NAME,
+              description: process.env.REPO_DESCRIPTION,
+              visibility: process.env.REPO_VISIBILITY,
+              auto_init: true,
+              allow_merge_commit: true,
+              allow_rebase_merge: true,
+              allow_squash_merge: true,
+              delete_branch_on_merge: true,
+              allow_update_branch: true,
+            })
