@@ -42,13 +42,9 @@ jobs:
 
       - name: Set env vars
         run: |
-          # Convert the repo name to a slug (lowercase, replace spaces with dashes, remove special chars)
-          REPO_NAME=$(echo "${{ fromJson(steps.parser.outputs.json).repo_name }}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed 's/[^a-z0-9-]//g')
-          # set values to env vars to prevent potential script injection
-          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
-          echo "REPO_DESCRIPTION=${{ fromJson(steps.parser.outputs.json).repo_description }}" >> $GITHUB_ENV
-          echo "REPO_VISIBILITY=${{ fromJson(steps.parser.outputs.json).repo_visibility }}" >> $GITHUB_ENV
-
+          echo "SOURCE_REPO_PROVIDER=${{ fromJson(steps.parser.outputs.json).source_repo_provider }}" >> $GITHUB_ENV
+          echo "SOURCE_REPO_URL=${{ fromJson(steps.parser.outputs.json).source_repo_url }}" >> $GITHUB_ENV
+          echo "TARGET_ORGANIZATION=${{ fromJson(steps.parser.outputs.json).target_organization }}" >> $GITHUB_ENV
 
       # doing this again in case someone else renamed the issue
       - name: Rename issue
@@ -60,10 +56,31 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              title: `Create Repo: ${process.env.REPO_NAME}`
+              title: `Mirror repository: ${process.env.SOURCE_REPO_URL}`
             })
 
-      - name: Create repository
+      - name: Parse URL
+        id: prase-src-url
+        run: |
+          echo "Full URL: $GIT_URL"
+          # Extract protocol
+          PROTOCOL=$(echo "$GIT_URL" | sed -n 's#^\(https\)://.*#\1#p')
+
+          # Extract host
+          HOST=$(echo "$GIT_URL" | sed -n 's#^https://\([^/]*\)/.*#\1#p')
+
+          # Extract org/owner
+          OWNER=$(echo "$GIT_URL" | sed -n 's#^https://[^/]*/\([^/]*\)/.*#\1#p')
+
+          # Extract repo
+          REPO=$(echo "$GIT_URL" | sed -n 's#^https://[^/]*/[^/]*/\([^/.]*\).*#\1#p')
+
+          echo "SRC_URL_PROTOCOL=$PROTOCOL" >> $GITHUB_ENV
+          echo "SRC_URL_HOST=$HOST" >> $GITHUB_ENV
+          echo "SRC_URL_OWNER=$OWNER" >> $GITHUB_ENV
+          echo "SRC_URL_REPO_NAME=$REPO" >> $GITHUB_ENV
+
+      - name: Create Target Repo
         id: create-repo
         uses: actions/github-script@v7
         with:
@@ -71,9 +88,7 @@ jobs:
           script: |
             return await github.rest.repos.createInOrg({
               org: context.repo.owner,
-              name: process.env.REPO_NAME,
-              description: process.env.REPO_DESCRIPTION,
-              visibility: process.env.REPO_VISIBILITY,
+              name: process.env.SRC_URL_REPO_NAME,
               auto_init: true,
               allow_merge_commit: true,
               allow_rebase_merge: true,
