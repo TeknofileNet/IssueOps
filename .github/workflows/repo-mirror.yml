@@ -1,5 +1,5 @@
 name: repo-mirror
-run-name: Mirror repository: Issue #${{ github.event.issue.number }} by @${{ github.actor }}
+run-name: 'Mirror repository: Issue #${{ github.event.issue.number }} by @${{ github.actor }}'
 
 on:
   issue_comment:
