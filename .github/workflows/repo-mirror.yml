@@ -108,3 +108,5 @@ jobs:
         run: |
           echo $(pwd)
           ls -alh .
+          find .
+          git remote -v
