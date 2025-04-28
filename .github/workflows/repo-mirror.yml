@@ -110,3 +110,6 @@ jobs:
           ls -alh .
           find .
           git remote -v
+          git clone --bare ${{ env.SOURCE_REPO_URL }}
+          cd ${{ env.SRC_URL_REPO_NAME }}.git
+          git push --mirror https://github.com/TeknofileNet/${{ env.SOURCE_REPO_URL }}
