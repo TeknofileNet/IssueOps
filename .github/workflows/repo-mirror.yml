@@ -98,3 +98,13 @@ jobs:
               delete_branch_on_merge: true,
               allow_update_branch: true,
             })
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          repository: ${{ github.repository_owner}}/${{ env.SRC_URL_REPO_NAME }}
+          path: ${{ env.SRC_URL_REPO_NAME }}
+      - name: Mirror Repo
+        run: |
+          echo $(pwd)
+          ls -alh .
