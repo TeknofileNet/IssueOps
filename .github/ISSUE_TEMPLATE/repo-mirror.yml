@@ -15,27 +15,17 @@ body:
       required: true
   - type: input
     attributes:
-      label: Source repository URL (HTTPS)
+      label: Source Repo URL
       description: Enter the URL of the source repository
-      placeholder: src-repo-url
+      placeholder: https://github.com/SomeOrg/SomeProject
     validations:
       required: true
   - type: dropdown
     attributes:
-      label: Target (Destination) Organization
+      label: Target Organization
       description: What organization are we going to mirror this into?
       multiple: false
       options:
-        - ping-sandbox
-    validations:
-      required: true
-  - type: dropdown
-    attributes:
-      label: Repo Visibility
-      description: Please select the visibility for the new repository
-      options:
-        - internal
-        - private
-        - public
+        - TeknofileNet
     validations:
       required: true
