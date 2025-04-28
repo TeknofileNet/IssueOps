@@ -9,8 +9,8 @@ jobs:
   repo-mirror-run:
     runs-on: ubuntu-latest
     if: github.event_name == 'issue_comment' &&
-      (startsWith(github.event.comment.body, '/mirror-repo') &&
-      contains(github.event.issue.labels.*.name, 'mirror-repo'))
+      (startsWith(github.event.comment.body, '/repo-mirror') &&
+      contains(github.event.issue.labels.*.name, 'repo-mirror'))
     permissions:
       contents: read
       issues: write
