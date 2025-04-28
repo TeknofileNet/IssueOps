@@ -7,7 +7,7 @@ on:
 
 jobs:
   repo-mirror-prepare:
-    name: Prepare Migration
+    name: Prepare Mirror
     runs-on: ubuntu-latest
     if: github.event_name == 'issues' &&
       (github.event.action == 'opened') &&

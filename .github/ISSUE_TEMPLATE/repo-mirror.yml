@@ -1,7 +1,8 @@
 name: 🆕 Mirror a public repository
 description: Create a 'local' mirror within our mirror organization from an upstream.
-title: "Mirror public git repository"
-labels: ["repo-mirror-public"]
+title: "[Mirror Repo] Mirror public git repository"
+labels:
+  - repo-mirror
 body:
   - type: dropdown
     attributes:
