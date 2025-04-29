@@ -93,12 +93,7 @@ jobs:
               auto_init: false,
             })
 
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          repository: ${{ github.repository_owner}}/${{ env.SRC_URL_REPO_NAME }}
-          path: ${{ env.SRC_URL_REPO_NAME }}
-      - name: Mirror Repo
+      - name: Push the upstream locally
         run: |
           echo $(pwd)
           ls -alh .
