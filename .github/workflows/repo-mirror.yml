@@ -81,6 +81,9 @@ jobs:
           echo "SRC_URL_OWNER=$OWNER" >> $GITHUB_ENV
           echo "SRC_URL_REPO_NAME=$REPO" >> $GITHUB_ENV
 
+      - name: npm install
+        run: npm i octokit@2.1.0 @actions/core
+
       - name: Delete Test Repo
         uses: actions/github-script@v7
         with:
