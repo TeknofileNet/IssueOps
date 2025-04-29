@@ -16,3 +16,11 @@ jobs:
         run: |
           ls -alh ${{ github.workspace }}
       - run: echo "This job's status is ${{ job.status }}."
+  MirrorJob:
+    runs-on: ubuntu-latest
+    steps:
+      # This step checkouts out a copy of the repo
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - name: Use local mirror action
+        uses: ./.github/actions/hello-world-action
