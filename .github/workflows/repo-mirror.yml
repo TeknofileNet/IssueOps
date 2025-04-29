@@ -111,6 +111,7 @@ jobs:
          with:
           token: ${{ steps.app-token.outputs.token }}
       - name: Push the upstream locally
+        continue-on-error: true
         run: |
           echo "..."
           echo "PWD: $(pwd)"
@@ -123,3 +124,4 @@ jobs:
           git remote add github  https://tkf-automation-bot:${{ steps.app-token.outputs.token }}@github.com/TeknofileNet/${{ env.SRC_URL_REPO_NAME }}.git
           git remote -v
           git push --mirror github
+          exit 0
