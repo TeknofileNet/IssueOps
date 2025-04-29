@@ -98,7 +98,6 @@ jobs:
           github-token: ${{ steps.app-token.outputs.token }}
       - name: Push the upstream locally
         run: |
-          env
           echo "..."
           echo "PWD: $(pwd)"
           cd ${{ env.SRC_URL_REPO_NAME }}
