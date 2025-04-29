@@ -93,20 +93,15 @@ jobs:
               auto_init: false,
             })
 
+      -  uses: actions/checkout@v4
+         with:
+          github-token: ${{ steps.app-token.outputs.token }}
       - name: Push the upstream locally
         run: |
-          echo $(pwd)
-          ls -alh .
-          find .
-          git remote -v
-          echo "..."
-          echo "Clone the source repo"
-          git clone --bare ${{ env.SOURCE_REPO_URL }}
-          echo "Listing the dir structure now"
-          ls -alh .
-          cd ${{ env.SRC_URL_REPO_NAME }}.git
+          env
+          cd ${{ env.SRC_URL_REPO_NAME }}
           pwd
-          git config --global user.name 'tkf-automation-bot[bot]'
+          git config --global user.name 'tkf-automation-bot'
           git config --global user.email 'tkf-automation-bot@users.noreply.github.com'
           git remote set-url origin  https://github.com/TeknofileNet/${{ env.SRC_URL_REPO_NAME }}.git
           git remote -v
