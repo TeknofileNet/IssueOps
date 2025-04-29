@@ -99,8 +99,10 @@ jobs:
       - name: Push the upstream locally
         run: |
           env
+          echo "..."
+          echo "PWD: $(pwd)"
           cd ${{ env.SRC_URL_REPO_NAME }}
-          pwd
+          echo "PWD: $(pwd)"
           git config --global user.name 'tkf-automation-bot'
           git config --global user.email 'tkf-automation-bot@users.noreply.github.com'
           git remote set-url origin  https://github.com/TeknofileNet/${{ env.SRC_URL_REPO_NAME }}.git
