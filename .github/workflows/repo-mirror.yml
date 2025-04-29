@@ -109,7 +109,7 @@ jobs:
 
       -  uses: actions/checkout@v4
          with:
-          github-token: ${{ steps.app-token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token }}
       - name: Push the upstream locally
         run: |
           echo "..."
