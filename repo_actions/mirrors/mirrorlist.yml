@@ -1,0 +1,43 @@
+---
+terraform-aws-vpc:
+  src-name: terraform-aws-vpc
+  src-url: https://github.com/terraform-aws-modules/terraform-aws-vpc
+  dest-org: ping-oss-mirror
+  dest-repo-name: terraform-aws-vpc
+
+
+https://github.com/terraform-aws-modules/terraform-aws-rds
+https://github.com/terraform-aws-modules/terraform-aws-alb
+https://github.com/terraform-aws-modules/terraform-aws-ecs
+https://github.com/terraform-aws-modules/terraform-aws-eventbridge
+https://github.com/terraform-aws-modules/terraform-aws-s3-bucket
+https://github.com/terraform-aws-modules/terraform-aws-eks
+https://github.com/terraform-aws-modules/terraform-aws-iam
+https://github.com/terraform-aws-modules/terraform-aws-rds-aurora
+https://github.com/antonbabenko/pre-commit-terraform
+https://github.com/terraform-aws-modules/terraform-aws-lambda
+
+https://github.com/terraform-aws-modules/terraform-aws-sqs
+https://github.com/terraform-aws-modules/terraform-aws-sns
+https://github.com/terraform-aws-modules/terraform-aws-ec2-instance
+https://github.com/terraform-aws-modules/terraform-aws-ecr
+https://github.com/terraform-aws-modules/terraform-aws-autoscaling
+https://github.com/cattle-ops/terraform-aws-gitlab-runner
+https://github.com/terraform-aws-modules/terraform-aws-dynamodb-table
+https://github.com/terraform-aws-modules/terraform-aws-route53
+https://github.com/terraform-aws-modules/terraform-aws-notify-slack
+https://github.com/terraform-aws-modules/terraform-aws-cloudwatch
+https://github.com/terraform-aws-modules/terraform-aws-cloudfront
+https://github.com/terraform-aws-modules/terraform-aws-transit-gateway
+https://github.com/terraform-aws-modules/terraform-aws-security-group
+https://github.com/terraform-aws-modules/terraform-aws-apigateway-v2
+https://github.com/terraform-aws-modules/terraform-aws-secrets-manager
+https://github.com/terraform-aws-modules/terraform-aws-elb
+https://github.com/terraform-aws-modules/terraform-aws-acm
+https://github.com/terraform-aws-modules/terraform-aws-key-pair
+https://github.com/terraform-aws-modules/terraform-aws-kms
+https://github.com/terraform-aws-modules/terraform-aws-atlantis
+https://github.com/pre-commit/pre-commit
+https://github.com/runatlantis/atlantis
+
+
