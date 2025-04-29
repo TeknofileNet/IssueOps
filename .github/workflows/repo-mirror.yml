@@ -81,6 +81,17 @@ jobs:
           echo "SRC_URL_OWNER=$OWNER" >> $GITHUB_ENV
           echo "SRC_URL_REPO_NAME=$REPO" >> $GITHUB_ENV
 
+      - name: Delete Test Repo
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const repositories = "docker-swag";
+            await require('./.github/scripts/delete-repos.js') ({repositories});
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPOSITORIES: "docker-swag"
+
+
       - name: Create Target Repo
         id: create-repo
         uses: actions/github-script@v7
