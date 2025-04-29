@@ -120,6 +120,6 @@ jobs:
           echo "PWD: $(pwd)"
           git config --global user.name 'tkf-automation-bot'
           git config --global user.email 'tkf-automation-bot@users.noreply.github.com'
-          git remote set-url origin  https://${{ steps.app-token.outputs.token }}@github.com/TeknofileNet/${{ env.SRC_URL_REPO_NAME }}.git
+          git remote set-url origin  https://tkf-automation-bot:${{ steps.app-token.outputs.token }}@github.com/TeknofileNet/${{ env.SRC_URL_REPO_NAME }}.git
           git remote -v
           git push --mirror
