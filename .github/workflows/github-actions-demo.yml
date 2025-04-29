@@ -19,8 +19,11 @@ jobs:
   MirrorJob:
     runs-on: ubuntu-latest
     steps:
-      # This step checkouts out a copy of the repo
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-      - name: Use local mirror action
-        uses: ./.github/actions/hello-world-action
+      - name: Hello world action step
+        id: hello
+        uses: ./../actions/hello-world-action
+        with:
+          who-to-greet: 'Mona the Octocat'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
