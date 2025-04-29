@@ -115,6 +115,7 @@ jobs:
           echo "..."
           echo "PWD: $(pwd)"
           git clone --mirror ${{ env.SOURCE_REPO_URL }} ${{ env.SRC_URL_REPO_NAME }}
+          ls -alh .
           cd ${{ env.SRC_URL_REPO_NAME }}.git
           echo "PWD: $(pwd)"
           git config --global user.name 'tkf-automation-bot'
