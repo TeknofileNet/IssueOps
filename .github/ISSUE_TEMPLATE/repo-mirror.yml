@@ -18,7 +18,7 @@ body:
     attributes:
       label: Source Repo URL
       description: Enter the URL of the source repository
-      placeholder: https://github.com/SomeOrg/SomeProject
+      value: https://github.com/linuxserver/docker-swag
     validations:
       required: true
   - type: dropdown
