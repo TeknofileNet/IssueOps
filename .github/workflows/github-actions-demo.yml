@@ -5,6 +5,10 @@ jobs:
   hello_world_job:
     runs-on: ubuntu-latest
     steps:
+      - name: foo
+        run: |
+          pwd
+          ls -alh
       - name: Hello world action step
         id: hello
         uses: ./.github/actions/hello-world-action
