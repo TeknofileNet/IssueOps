@@ -25,7 +25,6 @@ jobs:
       - uses: actions/create-github-app-token@v2
         id: app-token
         with:
-#          appId: ${{ vars.TKFNET_ISSUEOPS_APP_ID }}
           app-id: ${{ vars.TKFNET_ISSUEOPS_APP_ID }}
           private-key: ${{ secrets.TKFNET_ISSUEOPS_APP_KEY }}
           owner: ${{ github.repository_owner }}
@@ -110,6 +109,10 @@ jobs:
           ls -alh .
           find .
           git remote -v
+          echo "..."
+          echo "Clone the source repo"
           git clone --bare ${{ env.SOURCE_REPO_URL }}
+          echo "Listing the dir structure now"
+          ls -alh .
           cd ${{ env.SRC_URL_REPO_NAME }}.git
           git push --mirror https://github.com/TeknofileNet/${{ env.SRC_URL_REPO_NAME }}
