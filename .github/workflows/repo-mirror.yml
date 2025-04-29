@@ -25,7 +25,7 @@ jobs:
       - uses: actions/create-github-app-token@v2
         id: app-token
         with:
-          appId: ${{ vars.TKFNET_ISSUEOPS_APP_ID }}
+#          appId: ${{ vars.TKFNET_ISSUEOPS_APP_ID }}
           app-id: ${{ vars.TKFNET_ISSUEOPS_APP_ID }}
           private-key: ${{ secrets.TKFNET_ISSUEOPS_APP_KEY }}
           owner: ${{ github.repository_owner }}
