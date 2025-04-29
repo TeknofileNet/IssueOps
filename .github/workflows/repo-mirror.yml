@@ -90,12 +90,7 @@ jobs:
             return await github.rest.repos.createInOrg({
               org: context.repo.owner,
               name: process.env.SRC_URL_REPO_NAME,
-              auto_init: true,
-              allow_merge_commit: true,
-              allow_rebase_merge: true,
-              allow_squash_merge: true,
-              delete_branch_on_merge: true,
-              allow_update_branch: true,
+              auto_init: false,
             })
 
       - uses: actions/checkout@v4
@@ -115,6 +110,9 @@ jobs:
           echo "Listing the dir structure now"
           ls -alh .
           cd ${{ env.SRC_URL_REPO_NAME }}.git
+          pwd
           git config --global user.name 'tkf-automation-bot[bot]'
           git config --global user.email 'tkf-automation-bot@users.noreply.github.com'
-          git push --mirror https://github.com/TeknofileNet/${{ env.SRC_URL_REPO_NAME }}
+          git remote set-url origin  https://github.com/TeknofileNet/${{ env.SRC_URL_REPO_NAME }}.git
+          git remote -v
+          git push --mirror
