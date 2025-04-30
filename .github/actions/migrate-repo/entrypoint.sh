@@ -14,8 +14,21 @@ echo
 echo
 echo
 
-echo $GITHUB_TOKEN | gh auth login -p https -h GitHub.com --with-token
+pwd
+echo
+echo
+echo
+
+ls -alh
+echo
+echo
+echo
+
+
+#echo $GITHUB_TOKEN | gh auth login -p https -h GitHub.com --with-token
+echo "Creating repo ${DST_GIT_URL}"
 gh repo create TeknofileNet/${DST_GIT_URL} --public
+
 
 git clone --bare ${SRC_GIT_URL} ${TMP_DIR}
 cd ${TMP_DIR}
