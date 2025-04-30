@@ -2,8 +2,8 @@
 
 TMP_DIR=$(mktemp -d)
 
-SRC_GIT_URL=$1
-DST_GIT_URL=$2
+SRC_GIT_URL=$2
+DST_GIT_URL=$1
 GH_TOKEN=$3
 
 # TODO: Sanatize the input so we don't duplicate a `.git` extension
