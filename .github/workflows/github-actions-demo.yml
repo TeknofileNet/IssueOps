@@ -31,9 +31,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-        - name: Mirror code to TeknofileNet
+      - name: Mirror code to TeknofileNet
         uses: ./.github/actions/migrate-repo
         with:
-          destination-git-url: ''
-          source-git-url: ''
+          destination-git-url: 'test-mirror-foo'
+          source-git-url: 'https://github.com/linuxserver/docker-swag'
           github-token: ${{ steps.app-token.outputs.token }}
