@@ -1,0 +1,23 @@
+# action.yml
+name: 'Repo Migrator'
+description: 'Creates a mirror of a git repo in github'
+inputs:
+  github-token:
+    description: 'The github token'
+    required: true
+  source-git-url:
+    description: 'The source git url'
+    required: true
+  destination-git-url:
+    description: 'The destination git url'
+    required: true
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.destination-git-url }}
+    - ${{ inputs.source-git-url}}
+    - ${{ inputs.github-token }}
