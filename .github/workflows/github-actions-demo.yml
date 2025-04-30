@@ -33,7 +33,9 @@ jobs:
 
       - name: Mirror code to TeknofileNet
         uses: ./.github/actions/migrate-repo
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           destination-git-url: 'test-mirror-foo'
           source-git-url: 'https://github.com/linuxserver/docker-swag'
-          github-token: ${{ steps.app-token.outputs.token }}
+          #github-token: ${{ steps.app-token.outputs.token }}
